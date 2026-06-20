@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Acci&oacute;n Mayo 2026 | CAYCO Concretos</title>
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5f8a;
+            --accent: #e8943a;
+            --accent-light: #f5b561;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #e1e8ed;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 36px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -10%;
+            width: 400px; height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-icon { width: 48px; height: 48px; background: var(--accent); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 19px; }
+        .brand-text h1 { font-size: 24px; font-weight: 700; }
+        .brand-text p { font-size: 13px; opacity: 0.7; }
+        .header-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 6px 14px; font-size: 13px; }
+        .header-title { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
+        .header-sub { font-size: 15px; opacity: 0.8; margin-top: 4px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 32px 40px; }
+
+        .objetivo-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin: -52px 0 28px;
+            position: relative;
+            z-index: 2;
+        }
+        .obj-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .obj-card.target { border-top: 4px solid var(--accent); }
+        .obj-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-light); margin-bottom: 6px; font-weight: 600; }
+        .obj-value { font-size: 30px; font-weight: 800; color: var(--primary); letter-spacing: -1px; line-height: 1.1; }
+        .obj-sub { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+        .obj-baseline { font-size: 11px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+
+        .section { margin-bottom: 28px; }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .section-number { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+        .section-title { font-size: 19px; font-weight: 700; color: var(--primary); }
+
+        .card { background: var(--card); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 14px; }
+        .card-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .card-title .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th { background: var(--bg); padding: 10px 14px; text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); border-bottom: 2px solid var(--border); white-space: nowrap; }
+        tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tbody tr:hover { background: #f8fafc; }
+        tbody tr:last-child td { border-bottom: none; }
+        .mono { font-family: 'Consolas', monospace; font-size: 13px; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .tag { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .tag-green { background: #e8f8f0; color: #1a9d5a; }
+        .tag-orange { background: #fef3e2; color: #c67e1a; }
+        .tag-blue { background: #e8f0fe; color: #1a5fc6; }
+        .tag-red { background: #fee8e8; color: #c61a1a; }
+        .tag-purple { background: #f0e8fe; color: #6b3fd4; }
+
+        .priority-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .priority-alta { background: #fee8e8; color: #c61a1a; }
+        .priority-media { background: #fef3e2; color: #c67e1a; }
+        .priority-baja { background: #e8f0fe; color: #1a5fc6; }
+
+        .highlight-box { border-radius: 10px; padding: 16px 20px; margin-top: 14px; border-left: 4px solid var(--primary); background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%); }
+        .highlight-box.accent { border-left-color: var(--accent); background: linear-gradient(135deg, #fef3e2 0%, #fee8e8 100%); }
+        .highlight-box.success { border-left-color: var(--success); background: linear-gradient(135deg, #e8f8f0 0%, #e8fef3 100%); }
+        .highlight-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+        .highlight-box p { font-size: 13px; color: var(--text-light); }
+
+        .exec-summary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; border-radius: 14px; padding: 24px 28px; margin-bottom: 28px; }
+        .exec-summary h2 { font-size: 17px; margin-bottom: 10px; }
+        .exec-summary p { font-size: 14px; line-height: 1.75; opacity: 0.92; }
+
+        .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .pillar { background: var(--card); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); border: 1px solid var(--border); border-top: 4px solid var(--primary); }
+        .pillar.p1 { border-top-color: var(--accent); }
+        .pillar.p2 { border-top-color: var(--primary-light); }
+        .pillar.p3 { border-top-color: var(--success); }
+        .pillar-num { font-size: 11px; font-weight: 800; color: var(--text-light); letter-spacing: 1.5px; margin-bottom: 6px; }
+        .pillar-title { font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        .pillar-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+        .timeline { position: relative; padding-left: 32px; }
+        .timeline::before { content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+        .timeline-item { position: relative; padding-bottom: 18px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot { position: absolute; left: -27px; top: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; border: 3px solid var(--card); }
+        .timeline-week { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+        .timeline-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .timeline-text { font-size: 12px; color: var(--text-light); line-height: 1.55; }
+
+        .check-list { list-style: none; }
+        .check-list li { padding: 10px 0; display: flex; gap: 10px; align-items: flex-start; border-bottom: 1px dashed var(--border); }
+        .check-list li:last-child { border-bottom: none; }
+        .check-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--bg); border: 1.5px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--text-light); }
+        .check-text strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 2px; }
+        .check-text span { font-size: 12px; color: var(--text-light); }
+
+        .footer { text-align: center; padding: 28px 32px; color: var(--text-light); font-size: 12px; border-top: 1px solid var(--border); }
+        .footer strong { color: var(--text); }
+
+        @media print {
+            body { background: white; }
+            .card, .pillar { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+        }
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 10px; }
+            .grid-2, .grid-3, .pillar-grid { grid-template-columns: 1fr; }
+            .objetivo-strip { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 0 16px 32px; }
+        }
+    </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","url":"https://cayco.mx/","name":"CAYCO Concretos","inLanguage":"es-MX","publisher":{"@type":"Organization","name":"CAYCO Concreto Premezclado","url":"https://cayco.mx"},"provider":{"@type":"Organization","name":"Teseo Data Lab","url":"https://teseodata.com","description":"Inteligencia de datos, desarrollo tecnológico e infraestructura digital para CAYCO Concretos. Unidad de Inteligencia de Mercado para la industria del concreto en México.","sameAs":["https://www.linkedin.com/company/teseo-data-center/","https://www.instagram.com/teseo_data_lab/","https://www.facebook.com/teseodatalab"]}}
+</script>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="brand">
+                <div class="brand-icon">CC</div>
+                <div class="brand-text">
+                    <h1>CAYCO Concretos</h1>
+                    <p>TESEO DATA LAB</p>
+                </div>
+            </div>
+            <div class="header-badge">Mayo 2026</div>
+        </div>
+        <div class="header-title">Estrategia y Plan de Acci&oacute;n &mdash; Mayo 2026</div>
+        <div class="header-sub">Consolidar PSEO, capturar leads regionales y empujar palabras gen&eacute;ricas al top 10</div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- OBJETIVOS -->
+    <div class="objetivo-strip">
+        <div class="obj-card target">
+            <div class="obj-label">Meta Clics</div>
+            <div class="obj-value">600+</div>
+            <div class="obj-sub">desde Google</div>
+            <div class="obj-baseline">Abr: 438 &middot; +37%</div>
+        </div>
+        <div class="obj-card target">
+            <div class="obj-label">Meta Impresiones</div>
+            <div class="obj-value">28K</div>
+            <div class="obj-sub">en buscadores</div>
+            <div class="obj-baseline">Abr: 22.2K &middot; +26%</div>
+        </div>
+        <div class="obj-card target">
+            <div class="obj-label">Meta Leads</div>
+            <div class="obj-value">8</div>
+            <div class="obj-sub">leads calificados</div>
+            <div class="obj-baseline">Abr: 5 &middot; +60%</div>
+        </div>
+        <div class="obj-card target">
+            <div class="obj-label">PSEO en Top 5</div>
+            <div class="obj-value">7</div>
+            <div class="obj-sub">p&aacute;ginas regionales</div>
+            <div class="obj-baseline">Abr: 4 &middot; +3</div>
+        </div>
+    </div>
+
+    <!-- CONTEXTO -->
+    <div class="exec-summary">
+        <h2>&#9672; Contexto y enfoque</h2>
+        <p>Abril demostr&oacute; que el PSEO funciona: <strong>4 ciudades ya en top 5 de Google</strong> y <strong>5 leads calificados por 28,818 m&sup3;</strong>. Mayo no debe inventar nada nuevo; debe <strong>consolidar lo que ya funciona</strong>: empujar p&aacute;ginas que est&aacute;n a un paso del top, mejorar la conversi&oacute;n de visitantes a contactos, y capturar dos b&uacute;squedas gen&eacute;ricas con alto volumen donde CAYCO ya aparece pero nadie hace clic.</p>
+    </div>
+
+    <!-- 3 PILARES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <div class="section-title">Los 3 pilares de mayo</div>
+        </div>
+        <div class="pillar-grid">
+            <div class="pillar p1">
+                <div class="pillar-num">PILAR 01</div>
+                <div class="pillar-title">Consolidar PSEO</div>
+                <div class="pillar-desc">Empujar a top 10 las 6 p&aacute;ginas que est&aacute;n entre posici&oacute;n 11&ndash;20. A&ntilde;adir testimonios, fotos reales y bot&oacute;n de cotizaci&oacute;n directo en cada p&aacute;gina regional.</div>
+            </div>
+            <div class="pillar p2">
+                <div class="pillar-num">PILAR 02</div>
+                <div class="pillar-title">Capturar gen&eacute;ricos</div>
+                <div class="pillar-desc">"Tipos de concreto" y "concreto premezclado" suman 523 impresiones con casi 0 clics. Reescribir t&iacute;tulos y descripciones para duplicar el CTR.</div>
+            </div>
+            <div class="pillar p3">
+                <div class="pillar-num">PILAR 03</div>
+                <div class="pillar-title">Convertir tr&aacute;fico en leads</div>
+                <div class="pillar-desc">El sitio recibe 542 usuarios pero solo Contacto recibe 72 vistas. A&ntilde;adir formularios cortos y bot&oacute;n flotante en p&aacute;ginas regionales para capturar m&aacute;s solicitudes.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCIONES PRIORITARIAS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <div class="section-title">Acciones priorizadas para mayo</div>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>#</th><th>Acci&oacute;n</th><th>Pilar</th><th>Prioridad</th><th>Impacto esperado</th><th>Responsable</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mono">1</td>
+                            <td><strong>Optimizar 6 p&aacute;ginas PSEO en pos. 11&ndash;20</strong><br><span style="font-size:11px;color:var(--text-light);">Constructoras Puebla, Coyotepec, Naves Industriales Qro, Data Centers Qro, Permeable Qro, Bombeo Pachuca</span></td>
+                            <td><span class="tag tag-orange">PSEO</span></td>
+                            <td><span class="priority-badge priority-alta">Alta</span></td>
+                            <td>+30 a +50 clics/mes</td>
+                            <td>SEO</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">2</td>
+                            <td><strong>Reescribir t&iacute;tulos para "tipos de concreto" y "concreto premezclado"</strong><br><span style="font-size:11px;color:var(--text-light);">523 imp combinadas, CTR &lt;1%. Meta: CTR 3%+</span></td>
+                            <td><span class="tag tag-blue">Gen&eacute;ricos</span></td>
+                            <td><span class="priority-badge priority-alta">Alta</span></td>
+                            <td>+30 clics/mes</td>
+                            <td>SEO</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">3</td>
+                            <td><strong>A&ntilde;adir bot&oacute;n flotante de WhatsApp/cotizaci&oacute;n en p&aacute;ginas PSEO</strong><br><span style="font-size:11px;color:var(--text-light);">10 p&aacute;ginas regionales con CTA visible en m&oacute;vil</span></td>
+                            <td><span class="tag tag-green">Conversi&oacute;n</span></td>
+                            <td><span class="priority-badge priority-alta">Alta</span></td>
+                            <td>+2 a +3 leads/mes</td>
+                            <td>Dev</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">4</td>
+                            <td><strong>Replicar PSEO de Pachuca a Tizayuca, Mineral y Tulancingo Hgo</strong><br><span style="font-size:11px;color:var(--text-light);">Pachuca gener&oacute; el 99% del volumen. Replicar f&oacute;rmula a 3 ciudades vecinas</span></td>
+                            <td><span class="tag tag-orange">PSEO</span></td>
+                            <td><span class="priority-badge priority-alta">Alta</span></td>
+                            <td>+1 a +2 leads grandes</td>
+                            <td>SEO + Contenido</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">5</td>
+                            <td><strong>Mejorar CTR m&oacute;vil con t&iacute;tulos cortos</strong><br><span style="font-size:11px;color:var(--text-light);">M&oacute;vil pos. 4.4 pero CTR 1.52%. Acortar t&iacute;tulos a &lt;55 chars</span></td>
+                            <td><span class="tag tag-blue">Gen&eacute;ricos</span></td>
+                            <td><span class="priority-badge priority-media">Media</span></td>
+                            <td>+15 clics/mes</td>
+                            <td>SEO</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">6</td>
+                            <td><strong>Publicar 4 art&iacute;culos de blog enlazando a PSEO</strong><br><span style="font-size:11px;color:var(--text-light);">Casos de obra reales en Pachuca/Quer&eacute;taro con CTA a p&aacute;gina regional</span></td>
+                            <td><span class="tag tag-purple">Contenido</span></td>
+                            <td><span class="priority-badge priority-media">Media</span></td>
+                            <td>+10 clics + autoridad</td>
+                            <td>Contenido</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">7</td>
+                            <td><strong>Capturar "vaciado de concreto" (291 imp, 0.34% CTR)</strong><br><span style="font-size:11px;color:var(--text-light);">Crear secci&oacute;n espec&iacute;fica en /bombeo-concreto.html</span></td>
+                            <td><span class="tag tag-blue">Gen&eacute;ricos</span></td>
+                            <td><span class="priority-badge priority-media">Media</span></td>
+                            <td>+10 clics/mes</td>
+                            <td>SEO + Dev</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">8</td>
+                            <td><strong>Schema FAQ en 5 p&aacute;ginas PSEO m&aacute;s vistas</strong><br><span style="font-size:11px;color:var(--text-light);">Pachuca, Tulancingo, Quer&eacute;taro, Huauchinango, Zumpango</span></td>
+                            <td><span class="tag tag-orange">PSEO</span></td>
+                            <td><span class="priority-badge priority-media">Media</span></td>
+                            <td>Mejor visibilidad rich results</td>
+                            <td>SEO + Dev</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">9</td>
+                            <td><strong>Email de seguimiento a 5 leads de abril</strong><br><span style="font-size:11px;color:var(--text-light);">Estado de cotizaci&oacute;n + caso de &eacute;xito relacionado</span></td>
+                            <td><span class="tag tag-green">Conversi&oacute;n</span></td>
+                            <td><span class="priority-badge priority-media">Media</span></td>
+                            <td>Recuperar 1&ndash;2 cierres</td>
+                            <td>Comercial</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">10</td>
+                            <td><strong>Auditar y unificar dominios (cayco.mx vs www vs http)</strong><br><span style="font-size:11px;color:var(--text-light);">Tr&aacute;fico dividido en 3 versiones del dominio</span></td>
+                            <td><span class="tag tag-blue">T&eacute;cnico</span></td>
+                            <td><span class="priority-badge priority-baja">Baja</span></td>
+                            <td>Consolidaci&oacute;n autoridad</td>
+                            <td>Dev</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CRONOGRAMA -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <div class="section-title">Cronograma semana por semana</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Semanas 1 y 2 (1&ndash;15 mayo)</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1</div>
+                        <div class="timeline-week">Semana 1 &middot; 1&ndash;7 mayo</div>
+                        <div class="timeline-title">Quick wins de t&iacute;tulos y CTAs</div>
+                        <div class="timeline-text">
+                            &bull; Reescribir t&iacute;tulos y descripciones de "tipos de concreto" y "concreto premezclado".<br>
+                            &bull; A&ntilde;adir bot&oacute;n flotante de WhatsApp en las 10 p&aacute;ginas PSEO m&aacute;s vistas.<br>
+                            &bull; Email de seguimiento a los 5 leads de abril.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">2</div>
+                        <div class="timeline-week">Semana 2 &middot; 8&ndash;14 mayo</div>
+                        <div class="timeline-title">Optimizaci&oacute;n PSEO existente</div>
+                        <div class="timeline-text">
+                            &bull; Optimizar 6 p&aacute;ginas PSEO en posici&oacute;n 11&ndash;20 (contenido + enlaces internos).<br>
+                            &bull; Auditar t&iacute;tulos m&oacute;vil &lt;55 caracteres en p&aacute;ginas regionales.<br>
+                            &bull; Implementar Schema FAQ en 5 p&aacute;ginas PSEO top.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Semanas 3 y 4 (16&ndash;31 mayo)</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">3</div>
+                        <div class="timeline-week">Semana 3 &middot; 15&ndash;21 mayo</div>
+                        <div class="timeline-title">Expansi&oacute;n PSEO Hidalgo</div>
+                        <div class="timeline-text">
+                            &bull; Crear 3 p&aacute;ginas PSEO nuevas: Tizayuca, Mineral de la Reforma, Tulancingo de Bravo.<br>
+                            &bull; Publicar 2 art&iacute;culos de blog con casos reales (Pachuca y Quer&eacute;taro).<br>
+                            &bull; Crear secci&oacute;n "vaciado de concreto" en /bombeo-concreto.html.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">4</div>
+                        <div class="timeline-week">Semana 4 &middot; 22&ndash;31 mayo</div>
+                        <div class="timeline-title">Cierre y medici&oacute;n</div>
+                        <div class="timeline-text">
+                            &bull; Publicar 2 art&iacute;culos de blog adicionales.<br>
+                            &bull; Auditar y unificar versiones del dominio (cayco.mx canonical).<br>
+                            &bull; Revisi&oacute;n de KPIs vs metas, preparar reporte mensual mayo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <div class="section-title">Checklist operativo</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> SEO &amp; PSEO</div>
+                <ul class="check-list">
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Reescribir 8 metaT&iacute;tulos clave</strong><span>2 gen&eacute;ricos + 6 PSEO en posici&oacute;n 11&ndash;20</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Crear 3 p&aacute;ginas PSEO nuevas</strong><span>Tizayuca, Mineral de la Reforma, Tulancingo de Bravo</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Schema FAQ en 5 PSEO top</strong><span>Pachuca, Tulancingo, Qro, Huauchinango, Zumpango</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Enlaces internos blog &rarr; PSEO</strong><span>Cada art&iacute;culo nuevo enlaza a 2 p&aacute;ginas regionales</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Auditor&iacute;a de canonical y 301</strong><span>Unificar cayco.mx, www y http en una sola versi&oacute;n</span></div></li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Conversi&oacute;n &amp; Comercial</div>
+                <ul class="check-list">
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Bot&oacute;n flotante WhatsApp</strong><span>En las 10 p&aacute;ginas PSEO m&aacute;s vistas</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Formulario corto en PSEO</strong><span>Nombre, tel&eacute;fono, ciudad, volumen</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Seguimiento a 5 leads abril</strong><span>Email + llamada + caso de &eacute;xito relacionado</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>Tiempo de respuesta &lt;2 hr</strong><span>Notificaciones a equipo comercial v&iacute;a email</span></div></li>
+                    <li><div class="check-icon">&#9633;</div><div class="check-text"><strong>4 art&iacute;culos de blog publicados</strong><span>2 casos de &eacute;xito + 2 t&eacute;cnicos con CTA</span></div></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPIs MEDICION -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <div class="section-title">C&oacute;mo mediremos el &eacute;xito</div>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Indicador</th><th class="text-right">Abril (real)</th><th class="text-right">Meta mayo</th><th class="text-right">Meta m&iacute;nima</th><th class="text-center">Fuente</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Clics org&aacute;nicos</strong></td><td class="text-right mono">438</td><td class="text-right mono"><span class="tag tag-green">600</span></td><td class="text-right mono">500</td><td class="text-center">Search Console</td></tr>
+                        <tr><td><strong>Impresiones</strong></td><td class="text-right mono">22,185</td><td class="text-right mono"><span class="tag tag-green">28,000</span></td><td class="text-right mono">25,000</td><td class="text-center">Search Console</td></tr>
+                        <tr><td><strong>CTR</strong></td><td class="text-right">1.97%</td><td class="text-right"><span class="tag tag-green">2.3%</span></td><td class="text-right">2.1%</td><td class="text-center">Search Console</td></tr>
+                        <tr><td><strong>Posici&oacute;n media</strong></td><td class="text-right">5.85</td><td class="text-right"><span class="tag tag-green">5.3</span></td><td class="text-right">5.7</td><td class="text-center">Search Console</td></tr>
+                        <tr><td><strong>P&aacute;ginas PSEO en top 5</strong></td><td class="text-right mono">4</td><td class="text-right mono"><span class="tag tag-green">7</span></td><td class="text-right mono">5</td><td class="text-center">Search Console</td></tr>
+                        <tr><td><strong>Usuarios activos</strong></td><td class="text-right mono">542</td><td class="text-right mono"><span class="tag tag-green">700</span></td><td class="text-right mono">600</td><td class="text-center">Analytics 4</td></tr>
+                        <tr><td><strong>Leads calificados</strong></td><td class="text-right mono">5</td><td class="text-right mono"><span class="tag tag-green">8</span></td><td class="text-right mono">6</td><td class="text-center">CRM / Formularios</td></tr>
+                        <tr><td><strong>Volumen solicitado (m&sup3;)</strong></td><td class="text-right mono">28,818</td><td class="text-right mono"><span class="tag tag-green">35,000</span></td><td class="text-right mono">25,000</td><td class="text-center">CRM</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="highlight-box success">
+                <h4>Revisi&oacute;n quincenal</h4>
+                <p>Revisar avance el <strong>15 de mayo</strong> (medio mes) y <strong>31 de mayo</strong> (cierre). Si una m&eacute;trica se queda bajo la meta m&iacute;nima a mitad de mes, ajustar prioridades en la semana 3.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIESGOS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">6</div>
+            <div class="section-title">Riesgos y c&oacute;mo mitigarlos</div>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Riesgo</th><th>Probabilidad</th><th>Impacto</th><th>C&oacute;mo lo evitamos</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Lead grande de abril (25K m&sup3;) no convierte</strong></td><td><span class="tag tag-orange">Media</span></td><td><span class="tag tag-red">Alto</span></td><td>Seguimiento personal en semana 1, propuesta comercial detallada antes del 8 de mayo.</td></tr>
+                        <tr><td><strong>Google tarda en re-indexar p&aacute;ginas optimizadas</strong></td><td><span class="tag tag-orange">Media</span></td><td><span class="tag tag-orange">Medio</span></td><td>Solicitar indexaci&oacute;n manual en Search Console tras cada cambio. Generar enlaces internos.</td></tr>
+                        <tr><td><strong>Competencia regional copia estrategia PSEO</strong></td><td><span class="tag tag-blue">Baja</span></td><td><span class="tag tag-orange">Medio</span></td><td>Profundizar contenido con datos t&eacute;cnicos reales y testimonios; dif&iacute;cil de replicar.</td></tr>
+                        <tr><td><strong>Bajo volumen de leads en p&aacute;ginas que no son Pachuca</strong></td><td><span class="tag tag-orange">Media</span></td><td><span class="tag tag-orange">Medio</span></td><td>A/B de CTAs en Tulancingo y Quer&eacute;taro. Evaluar pauta puntual en Quer&eacute;taro si junio sigue plano.</td></tr>
+                        <tr><td><strong>Dom&iacute;nio dividido afecta autoridad</strong></td><td><span class="tag tag-blue">Baja</span></td><td><span class="tag tag-orange">Medio</span></td><td>Auditor&iacute;a t&eacute;cnica en semana 4 + redirecciones 301 a versi&oacute;n &uacute;nica.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CIERRE -->
+    <div class="exec-summary">
+        <h2>&#9672; Compromiso de mayo</h2>
+        <p>Si se ejecuta este plan, cerramos mayo con: <strong>+162 clics</strong>, <strong>+5,800 impresiones</strong>, <strong>3 ciudades nuevas con PSEO</strong>, y <strong>al menos 8 leads calificados</strong>. Lo m&aacute;s importante: el lead de Grupo Galume (25,000 m&sup3;) avanza en negociaci&oacute;n y los leads de Pachuca se replican en Tizayuca y Mineral. Este plan no apuesta por novedades &mdash; consolida lo que ya funciona en abril.</p>
+    </div>
+
+    <div class="footer">
+        <strong>CAYCO Concretos</strong> &mdash; Estrategia y Plan de Acci&oacute;n Mayo 2026<br>
+        Basado en datos reales de Google Analytics 4 &amp; Search Console (Abril 2026) | TESEO DATA LAB
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Ejecutivo | CAYCO Concretos 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5f8a;
+            --accent: #e8943a;
+            --accent-light: #f5b561;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #e1e8ed;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 50%;
+        }
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .brand-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--accent);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -1px;
+        }
+        .brand-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .brand-text p {
+            font-size: 14px;
+            opacity: 0.75;
+        }
+        .header-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            backdrop-filter: blur(10px);
+        }
+        .header-title {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        .header-subtitle {
+            font-size: 17px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        /* KPI STRIP */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: -60px 0 32px 0;
+            position: relative;
+            z-index: 2;
+        }
+        .kpi-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .kpi-card:hover { transform: translateY(-2px); }
+        .kpi-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+        .kpi-sub {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+        .kpi-trend.up { background: #e8f8f0; color: #1a9d5a; }
+        .kpi-trend.neutral { background: #fef3e2; color: #c67e1a; }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 40px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .section-number {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* GRID LAYOUTS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* CHART */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-height: 380px;
+        }
+
+        /* TABLE */
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        thead th {
+            background: var(--bg);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        tbody td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr:hover { background: #f8fafc; }
+        tbody tr:last-child td { border-bottom: none; }
+        .mono {
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 13px;
+        }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .tag-green { background: #e8f8f0; color: #1a9d5a; }
+        .tag-orange { background: #fef3e2; color: #c67e1a; }
+        .tag-blue { background: #e8f0fe; color: #1a5fc6; }
+        .tag-red { background: #fee8e8; color: #c61a1a; }
+
+        /* PROGRESS BAR */
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .progress-label {
+            width: 140px;
+            font-size: 13px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .progress-bar-bg {
+            flex: 1;
+            height: 28px;
+            background: var(--bg);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            min-width: 40px;
+            transition: width 1s ease;
+        }
+        .progress-value {
+            width: 70px;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* HIGHLIGHT BOX */
+        .highlight-box {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 16px 0;
+            border-left: 4px solid var(--primary);
+        }
+        .highlight-box.accent {
+            background: linear-gradient(135deg, #fef3e2 0%, #fee8e8 100%);
+            border-left-color: var(--accent);
+        }
+        .highlight-box.success {
+            background: linear-gradient(135deg, #e8f8f0 0%, #e8fef3 100%);
+            border-left-color: var(--success);
+        }
+        .highlight-box h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .highlight-box p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* MINI STAT GRID */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .stat-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-item .val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .stat-item .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 40px 32px;
+            color: var(--text-light);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+            margin-top: 20px;
+        }
+        .footer strong { color: var(--text); }
+
+        /* RESUMEN EJECUTIVO */
+        .exec-summary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 32px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        .exec-summary::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .exec-summary h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .exec-summary p {
+            font-size: 15px;
+            line-height: 1.8;
+            opacity: 0.92;
+        }
+
+        /* COMPARISON TABLE */
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 16px;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .comparison-row:last-child { border-bottom: none; }
+        .comparison-metric { font-weight: 600; font-size: 14px; }
+        .comparison-before, .comparison-after {
+            text-align: center;
+            font-weight: 700;
+            font-size: 15px;
+            min-width: 80px;
+        }
+        .comparison-change {
+            text-align: center;
+            min-width: 90px;
+        }
+
+        /* RECOMMENDATIONS */
+        .rec-list {
+            list-style: none;
+        }
+        .rec-list li {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .rec-list li:last-child { border-bottom: none; }
+        .rec-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .rec-icon.high { background: #fee8e8; }
+        .rec-icon.mid { background: #fef3e2; }
+        .rec-icon.low { background: #e8f8f0; }
+        .rec-text strong { display: block; margin-bottom: 2px; font-size: 14px; }
+        .rec-text span { font-size: 13px; color: var(--text-light); }
+
+        /* Print */
+        @media print {
+            body { background: white; }
+            .container { padding: 16px; }
+            .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            .kpi-strip { margin-top: 16px; }
+        }
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 12px; }
+            .header-title { font-size: 28px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 16px; }
+        }
+    </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","url":"https://cayco.mx/","name":"CAYCO Concretos","inLanguage":"es-MX","publisher":{"@type":"Organization","name":"CAYCO Concreto Premezclado","url":"https://cayco.mx"},"provider":{"@type":"Organization","name":"Teseo Data Lab","url":"https://teseodata.com","description":"Inteligencia de datos, desarrollo tecnológico e infraestructura digital para CAYCO Concretos. Unidad de Inteligencia de Mercado para la industria del concreto en México.","sameAs":["https://www.linkedin.com/company/teseo-data-center/","https://www.instagram.com/teseo_data_lab/","https://www.facebook.com/teseodatalab"]}}
+</script>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="brand">
+                <div class="brand-icon">CC</div>
+                <div class="brand-text">
+                    <h1>CAYCO Concretos</h1>
+                    <p>Reporte preparado por TESEO DATA LAB</p>
+                </div>
+            </div>
+            <div class="header-badge">Abril 1 &mdash; Diciembre 31, 2025</div>
+        </div>
+        <div class="header-title">Reporte Ejecutivo de Rendimiento Digital</div>
+        <div class="header-subtitle">Google Analytics 4 &amp; Google Search Console &mdash; 9 meses de operaci&oacute;n</div>
+    </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="container">
+    <div class="kpi-strip">
+        <div class="kpi-card">
+            <div class="kpi-label">Usuarios Totales</div>
+            <div class="kpi-value">3,900</div>
+            <div class="kpi-sub">usuarios activos &uacute;nicos</div>
+            <div class="kpi-trend up">Desde cero</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Sesiones</div>
+            <div class="kpi-value">5,318</div>
+            <div class="kpi-sub">sesiones totales</div>
+            <div class="kpi-trend up">1.36 sesiones/usuario</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Leads Generados</div>
+            <div class="kpi-value">3,311</div>
+            <div class="kpi-sub">eventos generate_lead</div>
+            <div class="kpi-trend up">62.3% tasa conversi&oacute;n</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">P&aacute;ginas Vistas</div>
+            <div class="kpi-value">8,074</div>
+            <div class="kpi-sub">1.52 p&aacute;gs/sesi&oacute;n</div>
+            <div class="kpi-trend neutral">33s tiempo medio</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Impresiones Google</div>
+            <div class="kpi-value">51,641</div>
+            <div class="kpi-sub">en Search Console</div>
+            <div class="kpi-trend up">+786% Jun&rarr;Dic</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Clics Org&aacute;nicos</div>
+            <div class="kpi-value">1,180</div>
+            <div class="kpi-sub">CTR promedio 2.29%</div>
+            <div class="kpi-trend up">800+ queries</div>
+        </div>
+    </div>
+
+    <!-- RESUMEN EJECUTIVO -->
+    <div class="exec-summary">
+        <h2>&#9672; Resumen Ejecutivo</h2>
+        <p>El sitio web de CAYCO Concretos fue lanzado en <strong>abril 2025</strong>, pasando de <strong>cero presencia digital medible</strong> a una plataforma con <strong>3,896 usuarios nuevos</strong> y <strong>5,318 sesiones</strong> en 9 meses. Se posicion&oacute; org&aacute;nicamente para m&aacute;s de <strong>800 consultas de b&uacute;squeda</strong> en Google, acumulando <strong>51,641 impresiones</strong>. Se registraron <strong>3,311 eventos de generaci&oacute;n de leads</strong>, lo que demuestra que el sitio no solo atrae tr&aacute;fico sino que convierte visitantes en contactos comerciales. Las impresiones en Search Console crecieron <strong>786%</strong> de junio a diciembre, consolidando un crecimiento org&aacute;nico sostenido.</p>
+    </div>
+
+    <!-- SECCION 1: EVOLUCION MENSUAL -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <div class="section-title">Evoluci&oacute;n Mensual de Usuarios</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Usuarios Nuevos por Mes</div>
+                <div class="chart-container">
+                    <canvas id="chartUsuariosMes"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Desglose Mensual</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mes</th>
+                                <th class="text-right">Nuevos</th>
+                                <th class="text-right">Activos</th>
+                                <th class="text-center">Cambio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Abril</strong> <span class="tag tag-blue">inicio</span></td>
+                                <td class="text-right mono">73</td>
+                                <td class="text-right mono">79</td>
+                                <td class="text-center">&mdash;</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Mayo</strong></td>
+                                <td class="text-right mono">639</td>
+                                <td class="text-right mono">673</td>
+                                <td class="text-center"><span class="tag tag-green">+775%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Junio</strong> <span class="tag tag-orange">campa&ntilde;a</span></td>
+                                <td class="text-right mono">1,830</td>
+                                <td class="text-right mono">1,911</td>
+                                <td class="text-center"><span class="tag tag-green">+186%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Julio</strong></td>
+                                <td class="text-right mono">226</td>
+                                <td class="text-right mono">269</td>
+                                <td class="text-center"><span class="tag tag-red">&minus;88%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Agosto</strong></td>
+                                <td class="text-right mono">210</td>
+                                <td class="text-right mono">243</td>
+                                <td class="text-center"><span class="tag tag-red">&minus;7%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Septiembre</strong></td>
+                                <td class="text-right mono">224</td>
+                                <td class="text-right mono">254</td>
+                                <td class="text-center"><span class="tag tag-green">+7%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Octubre</strong></td>
+                                <td class="text-right mono">240</td>
+                                <td class="text-right mono">278</td>
+                                <td class="text-center"><span class="tag tag-green">+7%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Noviembre</strong></td>
+                                <td class="text-right mono">212</td>
+                                <td class="text-right mono">242</td>
+                                <td class="text-center"><span class="tag tag-red">&minus;12%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Diciembre</strong></td>
+                                <td class="text-right mono">241</td>
+                                <td class="text-right mono">285</td>
+                                <td class="text-center"><span class="tag tag-green">+14%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="highlight-box">
+            <h4>Pico de campa&ntilde;a Display (May 28 &ndash; Jun 13)</h4>
+            <p>Se detect&oacute; un pico de ~2,100 usuarios en 17 d&iacute;as vinculado a una campa&ntilde;a de Display, representando el 47% de todos los usuarios del a&ntilde;o. Sin este efecto, la base org&aacute;nica creci&oacute; de forma estable: promedio de <strong>220 usuarios/mes (Jul-Sep)</strong> a <strong>231 usuarios/mes (Oct-Dic)</strong>, un crecimiento trimestral del +5%.</p>
+        </div>
+    </div>
+
+    <!-- SECCION 2: CANALES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <div class="section-title">Canales de Adquisici&oacute;n</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Usuarios Nuevos por Canal</div>
+                <div class="chart-container">
+                    <canvas id="chartCanalesUsuarios"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Sesiones por Canal</div>
+                <div class="chart-container">
+                    <canvas id="chartCanalesSesiones"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span> Detalle de Canales</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Canal</th>
+                            <th class="text-right">Usuarios Nuevos</th>
+                            <th class="text-right">% Usuarios</th>
+                            <th class="text-right">Sesiones</th>
+                            <th class="text-right">% Sesiones</th>
+                            <th class="text-center">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Display</strong></td>
+                            <td class="text-right mono">1,617</td>
+                            <td class="text-right">41.5%</td>
+                            <td class="text-right mono">2,065</td>
+                            <td class="text-right">38.8%</td>
+                            <td class="text-center"><span class="tag tag-orange">Pagado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Organic Search</strong></td>
+                            <td class="text-right mono">1,075</td>
+                            <td class="text-right">27.6%</td>
+                            <td class="text-right mono">1,722</td>
+                            <td class="text-right">32.4%</td>
+                            <td class="text-center"><span class="tag tag-green">Org&aacute;nico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct</strong></td>
+                            <td class="text-right mono">560</td>
+                            <td class="text-right">14.4%</td>
+                            <td class="text-right mono">797</td>
+                            <td class="text-right">15.0%</td>
+                            <td class="text-center"><span class="tag tag-blue">Directo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Paid Search</strong></td>
+                            <td class="text-right mono">242</td>
+                            <td class="text-right">6.2%</td>
+                            <td class="text-right mono">253</td>
+                            <td class="text-right">4.8%</td>
+                            <td class="text-center"><span class="tag tag-orange">Pagado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Paid Video</strong></td>
+                            <td class="text-right mono">185</td>
+                            <td class="text-right">4.7%</td>
+                            <td class="text-right mono">195</td>
+                            <td class="text-right">3.7%</td>
+                            <td class="text-center"><span class="tag tag-orange">Pagado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Organic Social</strong></td>
+                            <td class="text-right mono">103</td>
+                            <td class="text-right">2.6%</td>
+                            <td class="text-right mono">137</td>
+                            <td class="text-right">2.6%</td>
+                            <td class="text-center"><span class="tag tag-green">Org&aacute;nico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cross-network</strong></td>
+                            <td class="text-right mono">57</td>
+                            <td class="text-right">1.5%</td>
+                            <td class="text-right mono">53</td>
+                            <td class="text-right">1.0%</td>
+                            <td class="text-center"><span class="tag tag-orange">Pagado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Referral</strong></td>
+                            <td class="text-right mono">32</td>
+                            <td class="text-right">0.8%</td>
+                            <td class="text-right mono">53</td>
+                            <td class="text-right">1.0%</td>
+                            <td class="text-center"><span class="tag tag-blue">Referido</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="stat-grid" style="margin-top:20px;">
+                <div class="stat-item">
+                    <div class="val">52.4%</div>
+                    <div class="label">Tr&aacute;fico Pagado</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">30.2%</div>
+                    <div class="label">Tr&aacute;fico Org&aacute;nico</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">15.4%</div>
+                    <div class="label">Directo + Referral</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 3: SEARCH CONSOLE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <div class="section-title">Rendimiento en B&uacute;squeda Org&aacute;nica (Search Console)</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Impresiones y Clics Mensuales</div>
+                <div class="chart-container">
+                    <canvas id="chartSCMensual"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> CTR y Posici&oacute;n Media Mensual</div>
+                <div class="chart-container">
+                    <canvas id="chartSCCtrPos"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span> Evoluci&oacute;n Mensual Search Console</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mes</th>
+                            <th class="text-right">Clics</th>
+                            <th class="text-right">Impresiones</th>
+                            <th class="text-right">CTR</th>
+                            <th class="text-right">Posici&oacute;n Media</th>
+                            <th class="text-center">Tendencia Imp.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Junio</strong></td>
+                            <td class="text-right mono">137</td>
+                            <td class="text-right mono">1,910</td>
+                            <td class="text-right">7.2%</td>
+                            <td class="text-right">7.1</td>
+                            <td class="text-center">&mdash;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Julio</strong></td>
+                            <td class="text-right mono">140</td>
+                            <td class="text-right mono">2,256</td>
+                            <td class="text-right">6.2%</td>
+                            <td class="text-right">9.7</td>
+                            <td class="text-center"><span class="tag tag-green">+18%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Agosto</strong></td>
+                            <td class="text-right mono">149</td>
+                            <td class="text-right mono">2,583</td>
+                            <td class="text-right">5.8%</td>
+                            <td class="text-right">13.1</td>
+                            <td class="text-center"><span class="tag tag-green">+14%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Septiembre</strong></td>
+                            <td class="text-right mono">183</td>
+                            <td class="text-right mono">4,145</td>
+                            <td class="text-right">4.4%</td>
+                            <td class="text-right">8.5</td>
+                            <td class="text-center"><span class="tag tag-green">+60%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Octubre</strong></td>
+                            <td class="text-right mono">193</td>
+                            <td class="text-right mono">7,088</td>
+                            <td class="text-right">2.7%</td>
+                            <td class="text-right">7.4</td>
+                            <td class="text-center"><span class="tag tag-green">+71%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Noviembre</strong></td>
+                            <td class="text-right mono">196</td>
+                            <td class="text-right mono">16,033</td>
+                            <td class="text-right">1.2%</td>
+                            <td class="text-right">5.3</td>
+                            <td class="text-center"><span class="tag tag-green">+126%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diciembre</strong></td>
+                            <td class="text-right mono">207</td>
+                            <td class="text-right mono">16,923</td>
+                            <td class="text-right">1.2%</td>
+                            <td class="text-right">5.6</td>
+                            <td class="text-center"><span class="tag tag-green">+6%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="highlight-box success">
+            <h4>Crecimiento org&aacute;nico exponencial</h4>
+            <p>Las impresiones crecieron de <strong>1,910 en junio</strong> a <strong>16,923 en diciembre</strong> &mdash; un aumento del <strong>786%</strong>. Esto significa que Google est&aacute; mostrando a CAYCO para cada vez m&aacute;s b&uacute;squedas. La posici&oacute;n media mejor&oacute; de 7.1 a 5.6, acerc&aacute;ndose al top 5 de resultados. El CTR baj&oacute; proporcionalmente porque se indexaron queries gen&eacute;ricos de alto volumen donde a&uacute;n se puede mejorar.</p>
+        </div>
+    </div>
+
+    <!-- SECCION 4: TOP QUERIES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <div class="section-title">Consultas de B&uacute;squeda Principales</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Top 10 Queries por Clics</div>
+                <div class="chart-container">
+                    <canvas id="chartTopQueries"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Queries de Mayor Oportunidad (Alto Volumen, Bajo CTR)</div>
+                <div class="chart-container">
+                    <canvas id="chartOportunidad"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span> Detalle de Consultas</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Consulta</th>
+                            <th class="text-right">Clics</th>
+                            <th class="text-right">Impresiones</th>
+                            <th class="text-right">CTR</th>
+                            <th class="text-right">Posici&oacute;n</th>
+                            <th class="text-center">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>cayco</strong></td>
+                            <td class="text-right mono">271</td>
+                            <td class="text-right mono">1,877</td>
+                            <td class="text-right">14.4%</td>
+                            <td class="text-right">4.5</td>
+                            <td class="text-center"><span class="tag tag-blue">Marca</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>cayco construccion</strong></td>
+                            <td class="text-right mono">56</td>
+                            <td class="text-right mono">168</td>
+                            <td class="text-right">33.3%</td>
+                            <td class="text-right">1.0</td>
+                            <td class="text-center"><span class="tag tag-blue">Marca</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>cayco pachuca</strong></td>
+                            <td class="text-right mono">50</td>
+                            <td class="text-right mono">352</td>
+                            <td class="text-right">14.2%</td>
+                            <td class="text-right">1.0</td>
+                            <td class="text-center"><span class="tag tag-blue">Marca</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>cayco tulancingo</strong></td>
+                            <td class="text-right mono">48</td>
+                            <td class="text-right mono">413</td>
+                            <td class="text-right">11.6%</td>
+                            <td class="text-right">1.1</td>
+                            <td class="text-center"><span class="tag tag-blue">Marca</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>tipos de concreto</strong></td>
+                            <td class="text-right mono">13</td>
+                            <td class="text-right mono">1,942</td>
+                            <td class="text-right">0.7%</td>
+                            <td class="text-right">10.0</td>
+                            <td class="text-center"><span class="tag tag-orange">Gen&eacute;rico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>concreto premezclado</strong></td>
+                            <td class="text-right mono">7</td>
+                            <td class="text-right mono">1,118</td>
+                            <td class="text-right">0.6%</td>
+                            <td class="text-right">11.1</td>
+                            <td class="text-center"><span class="tag tag-orange">Gen&eacute;rico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>vaciado de concreto</strong></td>
+                            <td class="text-right mono">0</td>
+                            <td class="text-right mono">815</td>
+                            <td class="text-right">0%</td>
+                            <td class="text-right">3.9</td>
+                            <td class="text-center"><span class="tag tag-red">Oportunidad</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>concreto</strong></td>
+                            <td class="text-right mono">0</td>
+                            <td class="text-right mono">544</td>
+                            <td class="text-right">0%</td>
+                            <td class="text-right">10.2</td>
+                            <td class="text-center"><span class="tag tag-orange">Gen&eacute;rico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>concreto durable</strong></td>
+                            <td class="text-right mono">0</td>
+                            <td class="text-right mono">445</td>
+                            <td class="text-right">0%</td>
+                            <td class="text-right">16.1</td>
+                            <td class="text-center"><span class="tag tag-orange">Gen&eacute;rico</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>concreteras en pachuca</strong></td>
+                            <td class="text-right mono">6</td>
+                            <td class="text-right mono">294</td>
+                            <td class="text-right">2.0%</td>
+                            <td class="text-right">5.1</td>
+                            <td class="text-center"><span class="tag tag-green">Local</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="highlight-box accent">
+            <h4>Oportunidad cr&iacute;tica: &ldquo;vaciado de concreto&rdquo;</h4>
+            <p>Esta consulta tiene <strong>815 impresiones</strong> y posici&oacute;n <strong>3.9</strong> (casi top 3), pero <strong>0 clics</strong>. Esto sugiere un problema con el snippet (t&iacute;tulo/descripci&oacute;n) en resultados de Google. Optimizar el meta title y description de la p&aacute;gina correspondiente podr&iacute;a generar <strong>+40-80 clics mensuales inmediatos</strong>.</p>
+        </div>
+    </div>
+
+    <!-- SECCION 5: PAGINAS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <div class="section-title">P&aacute;ginas M&aacute;s Visitadas</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Vistas por P&aacute;gina (Analytics)</div>
+                <div class="chart-container">
+                    <canvas id="chartPaginas"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Top P&aacute;ginas en Search Console</div>
+                <div class="chart-container">
+                    <canvas id="chartPaginasSC"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="highlight-box success">
+            <h4>La p&aacute;gina de Contacto es la #1</h4>
+            <p>Con <strong>3,502 vistas (43.4% del total)</strong>, la p&aacute;gina de Contacto supera al Inicio. Esto indica fuerte intenci&oacute;n comercial de los visitantes. La correlaci&oacute;n con los 3,311 eventos <em>generate_lead</em> confirma que los usuarios llegan al sitio con intenci&oacute;n de negocio y navegan hasta contactar.</p>
+        </div>
+    </div>
+
+    <!-- SECCION 6: EVENTOS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">6</div>
+            <div class="section-title">Eventos y Conversiones</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Eventos Principales</div>
+                <div class="chart-container">
+                    <canvas id="chartEventos"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Embudo de Conversi&oacute;n</div>
+                <div style="padding: 20px 0;">
+                    <div class="progress-row">
+                        <div class="progress-label">page_view</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:100%;background:var(--primary);">8,074</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">session_start</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:65.9%;background:var(--primary-light);">5,318</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">first_visit</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:48.3%;background:#3498db;">3,896</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">engagement</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:45.1%;background:#2ecc71;">3,640</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">generate_lead</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:41%;background:var(--accent);">3,311</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">scroll</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:21.4%;background:#9b59b6;">1,726</div>
+                        </div>
+                    </div>
+                    <div class="progress-row">
+                        <div class="progress-label">click</div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width:4.1%;background:#e74c3c;">335</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="val">3,622</div>
+                        <div class="label">Total Conversiones</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="val">62.3%</div>
+                        <div class="label">Tasa Conversi&oacute;n</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 7: GEOGRAFICO -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">7</div>
+            <div class="section-title">Distribuci&oacute;n Geogr&aacute;fica</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Usuarios por Pa&iacute;s (Analytics)</div>
+                <div class="chart-container">
+                    <canvas id="chartGeoAnalytics"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Clics por Pa&iacute;s (Search Console)</div>
+                <div class="chart-container">
+                    <canvas id="chartGeoSC"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="val">89.8%</div>
+                <div class="label">Tr&aacute;fico de M&eacute;xico</div>
+            </div>
+            <div class="stat-item">
+                <div class="val">5.6%</div>
+                <div class="label">Estados Unidos</div>
+            </div>
+            <div class="stat-item">
+                <div class="val">135</div>
+                <div class="label">Pa&iacute;ses con visibilidad</div>
+            </div>
+            <div class="stat-item">
+                <div class="val">92.8%</div>
+                <div class="label">Clics desde M&eacute;xico</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 8: DISPOSITIVOS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">8</div>
+            <div class="section-title">Rendimiento por Dispositivo</div>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Clics por Dispositivo</div>
+                <div class="chart-container">
+                    <canvas id="chartDispositivosClics"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Impresiones por Dispositivo</div>
+                <div class="chart-container">
+                    <canvas id="chartDispositivosImp"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Comparativa</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dispositivo</th>
+                                <th class="text-right">Clics</th>
+                                <th class="text-right">Imp.</th>
+                                <th class="text-right">CTR</th>
+                                <th class="text-right">Pos.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Desktop</strong></td>
+                                <td class="text-right mono">641</td>
+                                <td class="text-right mono">20,663</td>
+                                <td class="text-right"><span class="tag tag-green">3.10%</span></td>
+                                <td class="text-right">9.46</td>
+                            </tr>
+                            <tr>
+                                <td><strong>M&oacute;vil</strong></td>
+                                <td class="text-right mono">533</td>
+                                <td class="text-right mono">30,628</td>
+                                <td class="text-right"><span class="tag tag-orange">1.74%</span></td>
+                                <td class="text-right">4.63</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tablet</strong></td>
+                                <td class="text-right mono">6</td>
+                                <td class="text-right mono">350</td>
+                                <td class="text-right">1.71%</td>
+                                <td class="text-right">7.19</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box" style="margin-top:16px;">
+                    <h4>M&oacute;vil: mejor posici&oacute;n, menor CTR</h4>
+                    <p>59% de impresiones vienen de m&oacute;vil con posici&oacute;n 4.63, pero CTR de solo 1.74%. Oportunidad de mejorar snippets m&oacute;viles.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 9: RETENCIÓN -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">9</div>
+            <div class="section-title">Retenci&oacute;n de Usuarios</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Retenci&oacute;n por Cohorte Semanal</div>
+                <div class="chart-container">
+                    <canvas id="chartRetencion"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> An&aacute;lisis de Retenci&oacute;n</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Semana</th>
+                                <th class="text-right">Retenci&oacute;n</th>
+                                <th>Interpretaci&oacute;n</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Semana 0</strong></td>
+                                <td class="text-right mono">100%</td>
+                                <td>Primera visita</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Semana 1</strong></td>
+                                <td class="text-right mono">4.8%</td>
+                                <td>Regresaron a explorar m&aacute;s</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Semana 2</strong></td>
+                                <td class="text-right mono">2.3%</td>
+                                <td>Inter&eacute;s sostenido</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Semana 3</strong></td>
+                                <td class="text-right mono">1.4%</td>
+                                <td>Posibles clientes activos</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Semana 4</strong></td>
+                                <td class="text-right mono">1.3%</td>
+                                <td>Usuarios fieles</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box" style="margin-top:16px;">
+                    <h4>Normal para B2B / Construcci&oacute;n</h4>
+                    <p>La retenci&oacute;n baja es <strong>esperada</strong> en el sector: los usuarios buscan proveedor, contactan, y no regresan hasta una nueva necesidad. No es una debilidad.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 10: DE CERO A PRESENCIA -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">10</div>
+            <div class="section-title">De Cero a Presencia Digital: Progreso</div>
+        </div>
+        <div class="card">
+            <div class="card-title"><span class="dot"></span> Indicadores de Progreso: Abril vs Diciembre 2025</div>
+            <div class="chart-container" style="max-height:420px;">
+                <canvas id="chartProgreso"></canvas>
+            </div>
+        </div>
+        <div class="card">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th class="text-center">Abril 2025</th>
+                            <th class="text-center">Diciembre 2025</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Usuarios mensuales nuevos</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">241</td>
+                            <td class="text-center"><span class="tag tag-green">Activo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impresiones Search Console / mes</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">16,923</td>
+                            <td class="text-center"><span class="tag tag-green">Creciendo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clics org&aacute;nicos / mes</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">207</td>
+                            <td class="text-center"><span class="tag tag-green">Creciendo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Queries posicionados</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">800+</td>
+                            <td class="text-center"><span class="tag tag-green">Creciendo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Posici&oacute;n media en Google</strong></td>
+                            <td class="text-center mono">N/A</td>
+                            <td class="text-center mono">5.6</td>
+                            <td class="text-center"><span class="tag tag-green">Primera p&aacute;gina</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leads generados (acumulado)</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">3,311</td>
+                            <td class="text-center"><span class="tag tag-green">Activo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>P&aacute;ginas de blog indexadas</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">50+</td>
+                            <td class="text-center"><span class="tag tag-green">Creciendo</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pa&iacute;ses con visibilidad</strong></td>
+                            <td class="text-center mono">0</td>
+                            <td class="text-center mono">135</td>
+                            <td class="text-center"><span class="tag tag-green">Global</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCION 11: RECOMENDACIONES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">11</div>
+            <div class="section-title">Hallazgos y Recomendaciones</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Lo Que Funciona Bien</div>
+                <ul class="rec-list">
+                    <li>
+                        <div class="rec-icon low">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Dominio de b&uacute;squedas de marca</strong>
+                            <span>Posici&oacute;n 1.0 para &ldquo;cayco construcci&oacute;n&rdquo;, &ldquo;cayco pachuca&rdquo;, &ldquo;cayco tulancingo&rdquo; con CTR del 11-33%.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon low">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Alta intenci&oacute;n de contacto</strong>
+                            <span>43% de todas las vistas van a la p&aacute;gina de Contacto, generando 3,311 leads.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon low">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Estrategia de blog efectiva</strong>
+                            <span>Los art&iacute;culos generan decenas de miles de impresiones org&aacute;nicas en Google.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon low">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Posicionamiento m&oacute;vil fuerte</strong>
+                            <span>Posici&oacute;n promedio 4.63 en m&oacute;vil vs 9.46 en desktop.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon low">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Crecimiento org&aacute;nico sostenido</strong>
+                            <span>Impresiones crecieron 786% en 7 meses de forma constante.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Oportunidades de Mejora</div>
+                <ul class="rec-list">
+                    <li>
+                        <div class="rec-icon high">1</div>
+                        <div class="rec-text">
+                            <strong>Optimizar CTR en queries gen&eacute;ricos</strong>
+                            <span>&ldquo;tipos de concreto&rdquo; tiene 1,942 impresiones pero solo 0.67% CTR. Mejorar meta titles podr&iacute;a duplicar clics.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon high">2</div>
+                        <div class="rec-text">
+                            <strong>Capturar &ldquo;vaciado de concreto&rdquo;</strong>
+                            <span>815 impresiones, posici&oacute;n 3.9 pero 0 clics. Problema de snippet: optimizar t&iacute;tulo y descripci&oacute;n urgente.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon mid">3</div>
+                        <div class="rec-text">
+                            <strong>Mejorar CTR m&oacute;vil</strong>
+                            <span>59% de impresiones vienen de m&oacute;vil con CTR de solo 1.74%. Revisar c&oacute;mo aparecen los snippets.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon mid">4</div>
+                        <div class="rec-text">
+                            <strong>Canonicalizaci&oacute;n del dominio</strong>
+                            <span>Tr&aacute;fico dividido entre cayco.mx, www.cayco.mx y http. Unificar con redirecciones 301.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon mid">5</div>
+                        <div class="rec-text">
+                            <strong>Subir &ldquo;concreto premezclado&rdquo; al top 5</strong>
+                            <span>1,118 impresiones en posici&oacute;n 11. Subir al top 5 podr&iacute;a generar +50-100 clics/mes.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- METAS 2026 -->
+        <div class="card">
+            <div class="card-title"><span class="dot"></span> Metas Propuestas para 2026</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>M&eacute;trica</th>
+                            <th class="text-center">Cierre 2025</th>
+                            <th class="text-center">Meta S1 2026</th>
+                            <th class="text-center">Meta S2 2026</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Usuarios nuevos / mes</strong></td>
+                            <td class="text-center mono">241</td>
+                            <td class="text-center"><span class="tag tag-blue">400</span></td>
+                            <td class="text-center"><span class="tag tag-green">600</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clics org&aacute;nicos / mes</strong></td>
+                            <td class="text-center mono">207</td>
+                            <td class="text-center"><span class="tag tag-blue">400</span></td>
+                            <td class="text-center"><span class="tag tag-green">700</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impresiones / mes</strong></td>
+                            <td class="text-center mono">16,923</td>
+                            <td class="text-center"><span class="tag tag-blue">25,000</span></td>
+                            <td class="text-center"><span class="tag tag-green">40,000</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CTR promedio</strong></td>
+                            <td class="text-center mono">1.2%</td>
+                            <td class="text-center"><span class="tag tag-blue">2.5%</span></td>
+                            <td class="text-center"><span class="tag tag-green">3.0%</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Posici&oacute;n media</strong></td>
+                            <td class="text-center mono">5.6</td>
+                            <td class="text-center"><span class="tag tag-blue">4.5</span></td>
+                            <td class="text-center"><span class="tag tag-green">3.5</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="exec-summary" style="margin-top: 12px;">
+        <h2>&#9672; Conclusi&oacute;n</h2>
+        <p>En 9 meses, CAYCO Concretos pas&oacute; de <strong>no tener presencia digital medible</strong> a tener un sitio que genera <strong>241 usuarios nuevos mensuales de forma org&aacute;nica</strong>, est&aacute; posicionado para <strong>800+ consultas en Google</strong>, y ha generado <strong>3,311 leads</strong>. El activo m&aacute;s valioso construido es el <strong>posicionamiento org&aacute;nico creciente</strong>: las impresiones se multiplicaron por casi <strong>9x</strong>, lo que significa que la inversi&oacute;n en contenido y SEO est&aacute; generando retornos compuestos que seguir&aacute;n creciendo en 2026.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <strong>CAYCO Concretos</strong> &mdash; Reporte Ejecutivo de Rendimiento Digital<br>
+        Datos: Google Analytics 4 &amp; Google Search Console | Per&iacute;odo: Abril 1 &ndash; Diciembre 31, 2025<br>
+        Propiedad: Cayco (TESEO DATA LAB) | Generado: Febrero 2026
+    </div>
+</div>
+
+<script>
+// ============================================================
+// COLOR PALETTE
+// ============================================================
+const C = {
+    primary: '#1a3a5c',
+    primaryLight: '#2c5f8a',
+    accent: '#e8943a',
+    accentLight: '#f5b561',
+    success: '#2ecc71',
+    danger: '#e74c3c',
+    blue: '#3498db',
+    purple: '#9b59b6',
+    teal: '#1abc9c',
+    gray: '#95a5a6',
+    colors: ['#1a3a5c','#e8943a','#2ecc71','#3498db','#9b59b6','#e74c3c','#1abc9c','#f39c12','#2c5f8a']
+};
+
+const defaultFont = { family: "'Segoe UI', system-ui, sans-serif", size: 12 };
+Chart.defaults.font = defaultFont;
+Chart.defaults.color = '#7f8c8d';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+// ============================================================
+// 1. USUARIOS NUEVOS POR MES
+// ============================================================
+new Chart(document.getElementById('chartUsuariosMes'), {
+    type: 'bar',
+    data: {
+        labels: ['Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        datasets: [{
+            label: 'Usuarios Nuevos',
+            data: [73, 639, 1830, 226, 210, 224, 240, 212, 241],
+            backgroundColor: [
+                C.primary, C.primary, C.accent, C.primaryLight, C.primaryLight,
+                C.primaryLight, C.primaryLight, C.primaryLight, C.primaryLight
+            ],
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    label: ctx => ctx.parsed.y.toLocaleString() + ' usuarios nuevos'
+                }
+            }
+        },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 2. CANALES - USUARIOS
+// ============================================================
+new Chart(document.getElementById('chartCanalesUsuarios'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Display','Organic Search','Direct','Paid Search','Paid Video','Organic Social','Cross-network','Referral'],
+        datasets: [{
+            data: [1617, 1075, 560, 242, 185, 103, 57, 32],
+            backgroundColor: C.colors,
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { font: { size: 11 }, padding: 10 } },
+            tooltip: {
+                callbacks: {
+                    label: ctx => {
+                        const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                        const pct = ((ctx.parsed / total) * 100).toFixed(1);
+                        return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+                    }
+                }
+            }
+        }
+    }
+});
+
+// ============================================================
+// 2B. CANALES - SESIONES
+// ============================================================
+new Chart(document.getElementById('chartCanalesSesiones'), {
+    type: 'bar',
+    data: {
+        labels: ['Display','Organic Search','Direct','Paid Search','Paid Video','Organic Social','Unassigned','Cross-network','Referral'],
+        datasets: [{
+            label: 'Sesiones',
+            data: [2065, 1722, 797, 253, 195, 137, 57, 53, 53],
+            backgroundColor: C.colors,
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 3. SEARCH CONSOLE MENSUAL
+// ============================================================
+new Chart(document.getElementById('chartSCMensual'), {
+    type: 'bar',
+    data: {
+        labels: ['Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        datasets: [
+            {
+                label: 'Impresiones',
+                data: [1910, 2256, 2583, 4145, 7088, 16033, 16923],
+                backgroundColor: 'rgba(26,58,92,0.15)',
+                borderColor: C.primary,
+                borderWidth: 2,
+                borderRadius: 6,
+                order: 2
+            },
+            {
+                label: 'Clics',
+                data: [137, 140, 149, 183, 193, 196, 207],
+                type: 'line',
+                borderColor: C.accent,
+                backgroundColor: C.accent,
+                pointBackgroundColor: C.accent,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 3,
+                tension: 0.3,
+                yAxisID: 'y1',
+                order: 1
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                position: 'left',
+                title: { display: true, text: 'Impresiones', font: { weight: 'bold' } },
+                grid: { color: '#f0f0f0' }
+            },
+            y1: {
+                beginAtZero: true,
+                position: 'right',
+                title: { display: true, text: 'Clics', font: { weight: 'bold' } },
+                grid: { drawOnChartArea: false }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 3B. CTR Y POSICIÓN
+// ============================================================
+new Chart(document.getElementById('chartSCCtrPos'), {
+    type: 'line',
+    data: {
+        labels: ['Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        datasets: [
+            {
+                label: 'CTR (%)',
+                data: [7.2, 6.2, 5.8, 4.4, 2.7, 1.2, 1.2],
+                borderColor: C.accent,
+                backgroundColor: 'rgba(232,148,58,0.1)',
+                fill: true,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 3,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            {
+                label: 'Posicion Media',
+                data: [7.1, 9.7, 13.1, 8.5, 7.4, 5.3, 5.6],
+                borderColor: C.success,
+                backgroundColor: C.success,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 3,
+                tension: 0.3,
+                yAxisID: 'y1'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: {
+                beginAtZero: true,
+                position: 'left',
+                title: { display: true, text: 'CTR (%)', font: { weight: 'bold' } },
+                grid: { color: '#f0f0f0' }
+            },
+            y1: {
+                reverse: true,
+                position: 'right',
+                title: { display: true, text: 'Posicion (menor = mejor)', font: { weight: 'bold' } },
+                grid: { drawOnChartArea: false },
+                min: 1, max: 15
+            },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 4. TOP QUERIES
+// ============================================================
+new Chart(document.getElementById('chartTopQueries'), {
+    type: 'bar',
+    data: {
+        labels: ['cayco','cayco construccion','cayco pachuca','cayco tulancingo','tipos de concreto','cayco s.a. de c.v','concreto premezclado','concreteras pachuca','tipos de concretos','concreto premezclado pachuca'],
+        datasets: [{
+            label: 'Clics',
+            data: [271, 56, 50, 48, 13, 9, 7, 6, 2, 2],
+            backgroundColor: [C.primary, C.primary, C.primary, C.primary, C.accent, C.primary, C.accent, C.success, C.accent, C.success],
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 4B. OPORTUNIDAD QUERIES
+// ============================================================
+new Chart(document.getElementById('chartOportunidad'), {
+    type: 'bar',
+    data: {
+        labels: ['tipos de concreto','concreto premezclado','vaciado de concreto','concreto','concreto durable','concretera tulancingo','durabilidad','tipo de concreto','concreto tulancingo','clases de concreto'],
+        datasets: [{
+            label: 'Impresiones',
+            data: [1942, 1118, 815, 544, 445, 427, 410, 214, 187, 140],
+            backgroundColor: 'rgba(232,148,58,0.7)',
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                callbacks: {
+                    afterLabel: function(ctx) {
+                        const pos = [10.0, 11.1, 3.9, 10.2, 16.1, 2.4, 7.7, 9.1, 1.1, 12.9];
+                        return 'Posicion: ' + pos[ctx.dataIndex];
+                    }
+                }
+            }
+        },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' }, title: { display: true, text: 'Impresiones (sin clics o con muy pocos)', font: { weight: 'bold' } } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 5. PAGINAS ANALYTICS
+// ============================================================
+new Chart(document.getElementById('chartPaginas'), {
+    type: 'bar',
+    data: {
+        labels: ['Contacto','Inicio','Cayco (landing)','Servicios','Tipos Concretos','Bombeos','Innovacion'],
+        datasets: [{
+            label: 'Vistas',
+            data: [3502, 2788, 1071, 440, 163, 46, 37],
+            backgroundColor: [C.accent, C.primary, C.primaryLight, C.blue, C.teal, C.purple, C.gray],
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 5B. PAGINAS SEARCH CONSOLE
+// ============================================================
+new Chart(document.getElementById('chartPaginasSC'), {
+    type: 'bar',
+    data: {
+        labels: ['Blog: Vaciado y curado','Homepage (total)','Service-1','About','Blog: Tipos concreto','Proyectos','Services','Blog: Errores comunes'],
+        datasets: [
+            {
+                label: 'Impresiones',
+                data: [11872, 16382, 6414, 6468, 6057, 5071, 3386, 4257],
+                backgroundColor: 'rgba(26,58,92,0.2)',
+                borderColor: C.primary,
+                borderWidth: 1,
+                borderRadius: 6
+            },
+            {
+                label: 'Clics',
+                data: [28, 872, 38, 50, 38, 11, 11, 23],
+                backgroundColor: C.accent,
+                borderRadius: 6
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 6. EVENTOS
+// ============================================================
+new Chart(document.getElementById('chartEventos'), {
+    type: 'bar',
+    data: {
+        labels: ['page_view','session_start','first_visit','user_engagement','generate_lead','scroll','click','form_start'],
+        datasets: [{
+            label: 'Eventos',
+            data: [8074, 5318, 3896, 3640, 3311, 1726, 335, 16],
+            backgroundColor: [C.primary, C.primaryLight, C.blue, C.success, C.accent, C.purple, C.danger, C.gray],
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 7. GEO ANALYTICS
+// ============================================================
+new Chart(document.getElementById('chartGeoAnalytics'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Mexico','Estados Unidos','Suecia','China','Alemania','Irlanda','Francia','Otros'],
+        datasets: [{
+            data: [3504, 219, 19, 16, 16, 13, 9, 104],
+            backgroundColor: [C.primary, C.accent, C.success, C.danger, C.blue, C.purple, C.teal, C.gray],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { font: { size: 11 }, padding: 8 } },
+            tooltip: {
+                callbacks: {
+                    label: ctx => {
+                        const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                        const pct = ((ctx.parsed / total) * 100).toFixed(1);
+                        return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+                    }
+                }
+            }
+        }
+    }
+});
+
+// ============================================================
+// 7B. GEO SEARCH CONSOLE
+// ============================================================
+new Chart(document.getElementById('chartGeoSC'), {
+    type: 'bar',
+    data: {
+        labels: ['Mexico','EE.UU.','Peru','Colombia','Venezuela','Espana','Panama','Italia','Bolivia','Ecuador'],
+        datasets: [{
+            label: 'Clics',
+            data: [1095, 20, 18, 12, 10, 3, 3, 3, 2, 2],
+            backgroundColor: C.primary,
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            y: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 8. DISPOSITIVOS
+// ============================================================
+new Chart(document.getElementById('chartDispositivosClics'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Desktop','Movil','Tablet'],
+        datasets: [{
+            data: [641, 533, 6],
+            backgroundColor: [C.primary, C.accent, C.gray],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+new Chart(document.getElementById('chartDispositivosImp'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Desktop','Movil','Tablet'],
+        datasets: [{
+            data: [20663, 30628, 350],
+            backgroundColor: [C.primary, C.accent, C.gray],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+
+// ============================================================
+// 9. RETENCIÓN
+// ============================================================
+new Chart(document.getElementById('chartRetencion'), {
+    type: 'bar',
+    data: {
+        labels: ['Semana 0','Semana 1','Semana 2','Semana 3','Semana 4','Semana 5'],
+        datasets: [{
+            label: 'Retencion (%)',
+            data: [100, 4.8, 2.3, 1.4, 1.3, 0],
+            backgroundColor: [C.primary, C.accent, C.accentLight, C.blue, C.teal, C.gray],
+            borderRadius: 6,
+            borderSkipped: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: ctx => ctx.parsed.y + '%' } }
+        },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#f0f0f0' }, ticks: { callback: v => v + '%' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// ============================================================
+// 10. PROGRESO
+// ============================================================
+new Chart(document.getElementById('chartProgreso'), {
+    type: 'bar',
+    data: {
+        labels: ['Usuarios/mes','Clics organicos/mes','Queries posicionados','Paginas blog indexadas'],
+        datasets: [
+            {
+                label: 'Abril 2025',
+                data: [0, 0, 0, 0],
+                backgroundColor: 'rgba(149,165,166,0.4)',
+                borderRadius: 6
+            },
+            {
+                label: 'Diciembre 2025',
+                data: [241, 207, 800, 50],
+                backgroundColor: C.accent,
+                borderRadius: 6
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

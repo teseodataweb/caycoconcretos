@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Ejecutivo Resumen | CAYCO Concretos 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5f8a;
+            --accent: #e8943a;
+            --accent-light: #f5b561;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #f4f6f9;
+            --card: #ffffff;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #e1e8ed;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 36px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+        }
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 19px;
+        }
+        .brand-text h1 { font-size: 24px; font-weight: 700; }
+        .brand-text p { font-size: 13px; opacity: 0.7; }
+        .header-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+        .header-title { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
+        .header-sub { font-size: 15px; opacity: 0.8; margin-top: 4px; }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px 40px;
+        }
+
+        /* KPI STRIP */
+        .kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin: -52px 0 28px;
+            position: relative;
+            z-index: 2;
+        }
+        .kpi-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .kpi-card:hover { transform: translateY(-2px); }
+        .kpi-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .kpi-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+        .kpi-sub { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-top: 6px;
+        }
+        .kpi-trend.up { background: #e8f8f0; color: #1a9d5a; }
+
+        /* SECTION */
+        .section { margin-bottom: 28px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .section-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .section-title { font-size: 19px; font-weight: 700; color: var(--primary); }
+
+        /* CARD */
+        .card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 14px;
+        }
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* GRID */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+        }
+
+        /* CHART */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-height: 300px;
+        }
+
+        /* TABLE */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        thead th {
+            background: var(--bg);
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+        tbody td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+        tbody tr:hover { background: #f8fafc; }
+        tbody tr:last-child td { border-bottom: none; }
+        .mono { font-family: 'Consolas', monospace; font-size: 13px; }
+        .text-right { text-align: right; }
+        .text-center { text-align: center; }
+        .tag {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .tag-green { background: #e8f8f0; color: #1a9d5a; }
+        .tag-orange { background: #fef3e2; color: #c67e1a; }
+        .tag-blue { background: #e8f0fe; color: #1a5fc6; }
+        .tag-red { background: #fee8e8; color: #c61a1a; }
+
+        /* HIGHLIGHT */
+        .highlight-box {
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 14px;
+            border-left: 4px solid var(--primary);
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%);
+        }
+        .highlight-box.accent { border-left-color: var(--accent); background: linear-gradient(135deg, #fef3e2 0%, #fee8e8 100%); }
+        .highlight-box.success { border-left-color: var(--success); background: linear-gradient(135deg, #e8f8f0 0%, #e8fef3 100%); }
+        .highlight-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+        .highlight-box p { font-size: 13px; color: var(--text-light); }
+
+        /* STAT GRID */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .stat-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+        }
+        .stat-item .val { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .stat-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-light); margin-top: 2px; }
+
+        /* EXEC SUMMARY */
+        .exec-summary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+        }
+        .exec-summary h2 { font-size: 17px; margin-bottom: 10px; }
+        .exec-summary p { font-size: 14px; line-height: 1.75; opacity: 0.92; }
+
+        /* REC LIST */
+        .rec-list { list-style: none; }
+        .rec-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .rec-list li:last-child { border-bottom: none; }
+        .rec-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .rec-icon.high { background: #fee8e8; color: #c61a1a; }
+        .rec-icon.mid { background: #fef3e2; color: #c67e1a; }
+        .rec-icon.ok { background: #e8f8f0; color: #1a9d5a; }
+        .rec-text strong { display: block; font-size: 13px; margin-bottom: 1px; }
+        .rec-text span { font-size: 12px; color: var(--text-light); }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 28px 32px;
+            color: var(--text-light);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+        }
+        .footer strong { color: var(--text); }
+
+        @media print {
+            body { background: white; }
+            .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            .kpi-strip { margin-top: 12px; }
+        }
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; gap: 10px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+            .container { padding: 0 16px 32px; }
+        }
+    </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","url":"https://cayco.mx/","name":"CAYCO Concretos","inLanguage":"es-MX","publisher":{"@type":"Organization","name":"CAYCO Concreto Premezclado","url":"https://cayco.mx"},"provider":{"@type":"Organization","name":"Teseo Data Lab","url":"https://teseodata.com","description":"Inteligencia de datos, desarrollo tecnológico e infraestructura digital para CAYCO Concretos. Unidad de Inteligencia de Mercado para la industria del concreto en México.","sameAs":["https://www.linkedin.com/company/teseo-data-center/","https://www.instagram.com/teseo_data_lab/","https://www.facebook.com/teseodatalab"]}}
+</script>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-inner">
+        <div class="header-top">
+            <div class="brand">
+                <div class="brand-icon">CC</div>
+                <div class="brand-text">
+                    <h1>CAYCO Concretos</h1>
+                    <p>TESEO DATA LAB</p>
+                </div>
+            </div>
+            <div class="header-badge">Abr 1 &mdash; Dic 31, 2025</div>
+        </div>
+        <div class="header-title">Rendimiento Digital &mdash; Resumen Ejecutivo</div>
+        <div class="header-sub">Google Analytics 4 &amp; Search Console &bull; 9 meses desde lanzamiento</div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- KPIs -->
+    <div class="kpi-strip">
+        <div class="kpi-card">
+            <div class="kpi-label">Usuarios Nuevos</div>
+            <div class="kpi-value">3,896</div>
+            <div class="kpi-sub">desde cero absoluto</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Leads Generados</div>
+            <div class="kpi-value">3,311</div>
+            <div class="kpi-sub">eventos generate_lead</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Impresiones Google</div>
+            <div class="kpi-value">51.6K</div>
+            <div class="kpi-trend up">+786% Jun&rarr;Dic</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Posici&oacute;n Media</div>
+            <div class="kpi-value">5.6</div>
+            <div class="kpi-sub">primera p&aacute;gina de Google</div>
+        </div>
+    </div>
+
+    <!-- CONTEXTO -->
+    <div class="exec-summary">
+        <h2>&#9672; Contexto</h2>
+        <p>El sitio de CAYCO se lanz&oacute; en <strong>abril 2025</strong> sin historial previo de Analytics. En 9 meses, pas&oacute; de cero a <strong>3,896 usuarios</strong>, <strong>3,311 leads</strong>, <strong>800+ queries posicionados</strong> en Google y <strong>51,641 impresiones org&aacute;nicas</strong>. Las impresiones crecieron <strong>9x</strong> de junio a diciembre, confirmando un crecimiento org&aacute;nico sostenido.</p>
+    </div>
+
+    <!-- 1. USUARIOS MENSUALES + CANALES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <div class="section-title">Tr&aacute;fico y Adquisici&oacute;n</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Usuarios Nuevos por Mes</div>
+                <div class="chart-container"><canvas id="chartUsuarios"></canvas></div>
+                <div class="highlight-box" style="margin-top:14px;">
+                    <h4>Lectura clave</h4>
+                    <p>Junio tuvo un pico de <strong>1,830 usuarios</strong> por campa&ntilde;a Display. Sin ese efecto, la base org&aacute;nica se estabiliz&oacute; en <strong>~220&ndash;241/mes</strong> con tendencia ascendente (+5% trimestral).</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Canales de Adquisici&oacute;n</div>
+                <div class="chart-container"><canvas id="chartCanales"></canvas></div>
+                <div class="stat-grid" style="margin-top:14px;">
+                    <div class="stat-item">
+                        <div class="val">52%</div>
+                        <div class="label">Pagado</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="val">28%</div>
+                        <div class="label">Org&aacute;nico</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="val">14%</div>
+                        <div class="label">Directo</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="val">6%</div>
+                        <div class="label">Otros</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SEARCH CONSOLE -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <div class="section-title">Crecimiento Org&aacute;nico (Search Console)</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Impresiones y Clics Mensuales</div>
+                <div class="chart-container"><canvas id="chartSC"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Evoluci&oacute;n Mensual</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Mes</th><th class="text-right">Imp.</th><th class="text-right">Clics</th><th class="text-right">Pos.</th><th class="text-center">&#916; Imp.</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Jun</strong></td><td class="text-right mono">1,910</td><td class="text-right mono">137</td><td class="text-right">7.1</td><td class="text-center">&mdash;</td></tr>
+                            <tr><td><strong>Jul</strong></td><td class="text-right mono">2,256</td><td class="text-right mono">140</td><td class="text-right">9.7</td><td class="text-center"><span class="tag tag-green">+18%</span></td></tr>
+                            <tr><td><strong>Ago</strong></td><td class="text-right mono">2,583</td><td class="text-right mono">149</td><td class="text-right">13.1</td><td class="text-center"><span class="tag tag-green">+14%</span></td></tr>
+                            <tr><td><strong>Sep</strong></td><td class="text-right mono">4,145</td><td class="text-right mono">183</td><td class="text-right">8.5</td><td class="text-center"><span class="tag tag-green">+60%</span></td></tr>
+                            <tr><td><strong>Oct</strong></td><td class="text-right mono">7,088</td><td class="text-right mono">193</td><td class="text-right">7.4</td><td class="text-center"><span class="tag tag-green">+71%</span></td></tr>
+                            <tr><td><strong>Nov</strong></td><td class="text-right mono">16,033</td><td class="text-right mono">196</td><td class="text-right">5.3</td><td class="text-center"><span class="tag tag-green">+126%</span></td></tr>
+                            <tr><td><strong>Dic</strong></td><td class="text-right mono">16,923</td><td class="text-right mono">207</td><td class="text-right">5.6</td><td class="text-center"><span class="tag tag-green">+6%</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. QUERIES + PAGINAS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <div class="section-title">P&aacute;ginas y Consultas Clave</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Top Queries en Google</div>
+                <div class="chart-container"><canvas id="chartQueries"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> P&aacute;ginas M&aacute;s Visitadas (Analytics)</div>
+                <div class="chart-container"><canvas id="chartPaginas"></canvas></div>
+                <div class="highlight-box success" style="margin-top:14px;">
+                    <h4>Contacto es la p&aacute;gina #1</h4>
+                    <p><strong>43.4%</strong> de todas las vistas van a Contacto, correlacionado con los 3,311 leads. Alta intenci&oacute;n comercial.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. GEO + DISPOSITIVOS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <div class="section-title">Geograf&iacute;a y Dispositivos</div>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Usuarios por Pa&iacute;s</div>
+                <div class="chart-container"><canvas id="chartGeo"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Dispositivos (Search Console)</div>
+                <div class="chart-container"><canvas id="chartDevices"></canvas></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Datos Clave</div>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="val">90%</div>
+                        <div class="label">M&eacute;xico</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="val">135</div>
+                        <div class="label">Pa&iacute;ses</div>
+                    </div>
+                </div>
+                <div class="table-wrap" style="margin-top:10px;">
+                    <table>
+                        <thead><tr><th>Dispositivo</th><th class="text-right">CTR</th><th class="text-right">Pos.</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Desktop</strong></td><td class="text-right"><span class="tag tag-green">3.10%</span></td><td class="text-right">9.46</td></tr>
+                            <tr><td><strong>M&oacute;vil</strong></td><td class="text-right"><span class="tag tag-orange">1.74%</span></td><td class="text-right">4.63</td></tr>
+                            <tr><td><strong>Tablet</strong></td><td class="text-right">1.71%</td><td class="text-right">7.19</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="highlight-box accent" style="margin-top:10px;">
+                    <h4>M&oacute;vil: mejor posici&oacute;n, menor CTR</h4>
+                    <p>59% de impresiones son m&oacute;viles. Oportunidad de optimizar snippets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. OPORTUNIDADES -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <div class="section-title">Oportunidades Prioritarias</div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Lo Que Funciona</div>
+                <ul class="rec-list">
+                    <li>
+                        <div class="rec-icon ok">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>B&uacute;squedas de marca dominadas</strong>
+                            <span>Posici&oacute;n 1.0 para &ldquo;cayco construcci&oacute;n&rdquo;, &ldquo;cayco pachuca&rdquo;, &ldquo;cayco tulancingo&rdquo;. CTR 11&ndash;33%.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon ok">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Alta conversi&oacute;n a contacto</strong>
+                            <span>43% de vistas van a Contacto &rarr; 3,311 leads generados.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon ok">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Blog genera visibilidad masiva</strong>
+                            <span>Art&iacute;culos acumulan decenas de miles de impresiones org&aacute;nicas.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon ok">&#10003;</div>
+                        <div class="rec-text">
+                            <strong>Impresiones crecieron 9x</strong>
+                            <span>De 1,910 a 16,923/mes en 7 meses. Crecimiento org&aacute;nico compuesto.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><span class="dot"></span> Acciones Recomendadas</div>
+                <ul class="rec-list">
+                    <li>
+                        <div class="rec-icon high">1</div>
+                        <div class="rec-text">
+                            <strong>Capturar &ldquo;vaciado de concreto&rdquo;</strong>
+                            <span>815 imp., pos. 3.9, 0 clics. Corregir meta title/description = +40&ndash;80 clics/mes.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon high">2</div>
+                        <div class="rec-text">
+                            <strong>Optimizar CTR en queries gen&eacute;ricos</strong>
+                            <span>&ldquo;tipos de concreto&rdquo; (1,942 imp, 0.7% CTR). Mejorar t&iacute;tulos duplicar&iacute;a clics.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon mid">3</div>
+                        <div class="rec-text">
+                            <strong>Canonicalizar dominio</strong>
+                            <span>Tr&aacute;fico dividido entre cayco.mx / www / http. Unificar con 301.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="rec-icon mid">4</div>
+                        <div class="rec-text">
+                            <strong>Subir &ldquo;concreto premezclado&rdquo; al top 5</strong>
+                            <span>1,118 imp. en pos. 11. Potencial +50&ndash;100 clics/mes.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONCLUSIÓN -->
+    <div class="exec-summary">
+        <h2>&#9672; Conclusi&oacute;n</h2>
+        <p>En 9 meses, CAYCO pas&oacute; de <strong>cero presencia digital</strong> a <strong>241 usuarios nuevos mensuales org&aacute;nicos</strong>, <strong>800+ queries en Google</strong>, y <strong>3,311 leads</strong>. Las impresiones se multiplicaron <strong>9x</strong>, confirmando que la inversi&oacute;n en sitio web, SEO y contenido genera retornos compuestos que seguir&aacute;n creciendo en 2026.</p>
+    </div>
+
+    <div class="footer">
+        <strong>CAYCO Concretos</strong> &mdash; Resumen Ejecutivo de Rendimiento Digital<br>
+        Google Analytics 4 &amp; Search Console | Abr 1 &ndash; Dic 31, 2025 | TESEO DATA LAB | Febrero 2026
+    </div>
+</div>
+
+<script>
+const C = {
+    primary: '#1a3a5c', primaryLight: '#2c5f8a', accent: '#e8943a',
+    success: '#2ecc71', danger: '#e74c3c', blue: '#3498db',
+    purple: '#9b59b6', teal: '#1abc9c', gray: '#95a5a6',
+    colors: ['#1a3a5c','#e8943a','#2ecc71','#3498db','#9b59b6','#e74c3c','#1abc9c','#f39c12','#2c5f8a']
+};
+Chart.defaults.font = { family: "'Segoe UI', system-ui, sans-serif", size: 11 };
+Chart.defaults.color = '#7f8c8d';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
+Chart.defaults.plugins.legend.labels.padding = 12;
+
+// 1. USUARIOS
+new Chart(document.getElementById('chartUsuarios'), {
+    type: 'bar',
+    data: {
+        labels: ['Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        datasets: [{
+            label: 'Usuarios Nuevos',
+            data: [73, 639, 1830, 226, 210, 224, 240, 212, 241],
+            backgroundColor: [C.primary,C.primary,C.accent,C.primaryLight,C.primaryLight,C.primaryLight,C.primaryLight,C.primaryLight,C.primaryLight],
+            borderRadius: 5, borderSkipped: false
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
+    }
+});
+
+// 2. CANALES
+new Chart(document.getElementById('chartCanales'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Display','Organic Search','Direct','Paid Search','Paid Video','Organic Social','Otros'],
+        datasets: [{
+            data: [1617, 1075, 560, 242, 185, 103, 114],
+            backgroundColor: C.colors, borderWidth: 2, borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right', labels: { font: { size: 10 }, padding: 8 } },
+            tooltip: { callbacks: { label: ctx => { const t = ctx.dataset.data.reduce((a,b)=>a+b,0); return ctx.label+': '+ctx.parsed.toLocaleString()+' ('+((ctx.parsed/t)*100).toFixed(1)+'%)'; } } }
+        }
+    }
+});
+
+// 3. SEARCH CONSOLE
+new Chart(document.getElementById('chartSC'), {
+    type: 'bar',
+    data: {
+        labels: ['Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+        datasets: [
+            { label: 'Impresiones', data: [1910,2256,2583,4145,7088,16033,16923], backgroundColor: 'rgba(26,58,92,0.15)', borderColor: C.primary, borderWidth: 2, borderRadius: 5, order: 2 },
+            { label: 'Clics', data: [137,140,149,183,193,196,207], type: 'line', borderColor: C.accent, backgroundColor: C.accent, pointRadius: 4, borderWidth: 3, tension: 0.3, yAxisID: 'y1', order: 1 }
+        ]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: { legend: { position: 'top' } },
+        scales: {
+            y: { beginAtZero: true, position: 'left', title: { display: true, text: 'Impresiones', font: { weight: 'bold', size: 10 } }, grid: { color: '#f0f0f0' } },
+            y1: { beginAtZero: true, position: 'right', title: { display: true, text: 'Clics', font: { weight: 'bold', size: 10 } }, grid: { drawOnChartArea: false } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+// 4. QUERIES
+new Chart(document.getElementById('chartQueries'), {
+    type: 'bar',
+    data: {
+        labels: ['cayco','cayco construccion','cayco pachuca','cayco tulancingo','tipos de concreto','concreto premezclado','concreteras pachuca','cayco s.a. de c.v'],
+        datasets: [{
+            label: 'Clics',
+            data: [271, 56, 50, 48, 13, 7, 6, 9],
+            backgroundColor: [C.primary,C.primary,C.primary,C.primary,C.accent,C.accent,C.success,C.primary],
+            borderRadius: 5, borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true, grid: { color: '#f0f0f0' } }, y: { grid: { display: false } } }
+    }
+});
+
+// 5. PAGINAS
+new Chart(document.getElementById('chartPaginas'), {
+    type: 'bar',
+    data: {
+        labels: ['Contacto','Inicio','Cayco (landing)','Servicios','Tipos Concretos','Bombeos','Innovacion'],
+        datasets: [{
+            label: 'Vistas',
+            data: [3502, 2788, 1071, 440, 163, 46, 37],
+            backgroundColor: [C.accent,C.primary,C.primaryLight,C.blue,C.teal,C.purple,C.gray],
+            borderRadius: 5, borderSkipped: false
+        }]
+    },
+    options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { x: { beginAtZero: true, grid: { color: '#f0f0f0' } }, y: { grid: { display: false } } }
+    }
+});
+
+// 6. GEO
+new Chart(document.getElementById('chartGeo'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Mexico','EE.UU.','Suecia','China','Alemania','Otros'],
+        datasets: [{
+            data: [3504, 219, 19, 16, 16, 126],
+            backgroundColor: [C.primary,C.accent,C.success,C.danger,C.blue,C.gray],
+            borderWidth: 2, borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8 } } }
+    }
+});
+
+// 7. DEVICES
+new Chart(document.getElementById('chartDevices'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Desktop (54%)','Movil (45%)','Tablet (1%)'],
+        datasets: [{
+            data: [641, 533, 6],
+            backgroundColor: [C.primary, C.accent, C.gray],
+            borderWidth: 2, borderColor: '#fff'
+        }]
+    },
+    options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 8 } } }
+    }
+});
+</script>
+</body>
+</html>
