@@ -1,11 +1,16 @@
 name: Autoblog WP Cayco
 
 # Genera posts vía REST API de WordPress (sin FTP, sin commit del HTML).
-# Cron cada 3 días a las 14:00 UTC (~8:00 AM hora centro de México).
+#
+# ⛔ PROCESO AUTOMÁTICO DETENIDO (2026-06-20):
+#    El cron quedó deshabilitado a petición del cliente. Ya NO se generan
+#    autoblogs automáticamente cada 3 días. El workflow solo puede ejecutarse
+#    manualmente (workflow_dispatch) desde la pestaña Actions de GitHub.
+#    Para reactivar el modo automático, descomenta el bloque `schedule:` de abajo.
 
 on:
-  schedule:
-    - cron: '0 14 */3 * *'
+  # schedule:
+  #   - cron: '0 14 */3 * *'   # cada 3 días, 14:00 UTC (~8:00 AM CDMX) — DESACTIVADO
   workflow_dispatch:
     inputs:
       count:
